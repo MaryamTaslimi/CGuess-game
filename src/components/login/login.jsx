@@ -4,17 +4,18 @@ import "./style.scss";
 import { Link } from "react-router-dom";
 import Cookies from 'universal-cookie';
 
-export class Login extends React.Component {
-
+export class Login extends React.Component {  
   constructor(props) {
     super(props);
     this.state = {
       play: false,
       show: false,
       name: '',
-      key: '',
+      key: new URLSearchParams(window.location.search).get("lxid"),
       url: '/'
     }
+    this.cookies = new Cookies();
+    this.cookies.set('key', this.state.key, { path: '/' });
     this.change = this.change.bind(this);
     this.setUsername = this.setUsername.bind(this);
   }
@@ -40,7 +41,6 @@ export class Login extends React.Component {
     }
     this.cookies = new Cookies();
     this.cookies.set('username', this.state.name, { path: '/' });
-    this.cookies.set('key', this.state.key, { path: '/' });
   };
 
   render() {
@@ -55,8 +55,7 @@ export class Login extends React.Component {
         <div className="content">
           <div className="form" >
             <div className="form-group">
-              <input onChange={this.change} type="text" name="name" placeholder="Type Your Name" id="username" required="required" style={{marginBottom: "15px"}} />
-              <input onChange={this.change} type="text" name="key" placeholder="Type the Room Name" id="key" required="required" style={{ marginTop: "0px", marginBottom: "15px"}} />
+              <input onChange={this.change} type="text" name="name" placeholder="Type Your Name" id="username" required="required" style={{ marginBottom: "15px" }} />
             </div>
             {/* <label className="alert alert-danger" style={{ visibility: "hidden", fontSize: "15px" }} id="msg"></label> */}
           </div>
